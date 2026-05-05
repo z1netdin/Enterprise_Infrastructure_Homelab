@@ -1,145 +1,94 @@
 # Enterprise Infrastructure Home Lab
 
-## Problem Statement
+## Why I Built This
 
-Organizations need IT professionals who can deploy, manage, and secure enterprise infrastructure across hybrid environments. This project demonstrates hands-on proficiency with the full stack of tools used in enterprise system administration — from hypervisor-level virtualization to automated configuration management, security monitoring, and CI/CD pipelines.
+I saw a job posting for a Lab/System Administration Intern at ASRC Federal. The role required hands-on experience with Active Directory, Linux, virtualization, monitoring, and automation tools. I didn't get the position, but I used the job description as a blueprint to build this entire lab from scratch so I could actually learn how these tools work together in a real enterprise environment.
 
-Built to demonstrate the skills required for enterprise Lab/System Administration roles, including those at organizations like ASRC Federal.
+This project is my way of turning a missed opportunity into real experience.
 
-## Solution
+## What This Project Is
 
-A fully functional enterprise infrastructure lab running on a single workstation, featuring:
+A home lab running on my personal workstation that simulates an enterprise IT environment. Everything is configured and working together — not just installed, but actually connected and functional.
 
-- **Virtualization** — Proxmox VE hypervisor managing Windows and Linux VMs
-- **Directory Services** — Windows Server 2025 Active Directory with DNS, DHCP, and Group Policy
-- **Linux Administration** — Rocky Linux 10 running web services and containers
-- **Containerization** — Docker with multi-service deployments
-- **Infrastructure as Code** — Terraform provisioning VMs on Proxmox
-- **Configuration Management** — Ansible automating OS and application configuration
-- **Monitoring** — Grafana + Prometheus dashboards with alerting
-- **Security (SIEM)** — Wazuh monitoring all endpoints for threats and compliance
-- **Automation** — Bash, PowerShell, and Python scripts for operational tasks
-- **CI/CD** — GitHub Actions pipelines for automated testing and deployment
-- **Ticketing** — ServiceNow developer instance for change management
-
-## Architecture
+## What's Running
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│  Windows 11 Host (i9-14900KF / 128GB RAM / 769GB Disk)            │
-│                                                                     │
-│  ┌───────────────────────────────────────────────────────────────┐  │
-│  │  Proxmox VE 8.x (Hyper-V Nested Virtualization)              │  │
-│  │  Management: https://proxmox:8006                             │  │
-│  │                                                               │  │
-│  │  ┌─────────────────────┐  ┌─────────────────────────────┐   │  │
-│  │  │ VM: win-dc01        │  │ VM: rocky-web01              │   │  │
-│  │  │ Windows Server 2025 │  │ Rocky Linux 9                │   │  │
-│  │  │ 4 vCPU / 8GB RAM    │  │ 4 vCPU / 8GB RAM            │   │  │
-│  │  │                     │  │                               │   │  │
-│  │  │ - Active Directory  │  │ - Docker Host                │   │  │
-│  │  │ - DNS Server        │  │ - Nginx Web Server           │   │  │
-│  │  │ - DHCP Server       │  │ - Grafana + Prometheus       │   │  │
-│  │  │ - Group Policy      │  │ - Wazuh Manager              │   │  │
-│  │  │ - Wazuh Agent       │  │ - Ansible Control Node       │   │  │
-│  │  │                     │  │ - Wazuh Agent                │   │  │
-│  │  └─────────────────────┘  └─────────────────────────────┘   │  │
-│  │                                                               │  │
-│  │  Network: 10.10.10.0/24 (vmbr0 - Lab LAN)                   │  │
-│  │  Gateway: 10.10.10.1 (Proxmox)                               │  │
-│  └───────────────────────────────────────────────────────────────┘  │
-│                                                                     │
-│  GitHub Actions ←→ Ansible/Terraform ←→ Proxmox API               │
-│  ServiceNow Dev Instance ←→ REST API Integration                   │
-└─────────────────────────────────────────────────────────────────────┘
+VMware Workstation (on Windows 11)
+  |
+  |-- Proxmox VE 9.1         Hypervisor (learning the web UI and management)
+  |-- Windows Server 2025    Active Directory, DNS, DHCP, Group Policy
+  |-- Rocky Linux 10         Docker containers running:
+       |-- Nginx              Web server
+       |-- Grafana            Monitoring dashboards (port 3000)
+       |-- Prometheus         Metrics collection (port 9091)
+       |-- Node Exporter      System metrics
+       |-- Wazuh Manager      SIEM - security event monitoring
+       |-- Wazuh Indexer      SIEM - log storage
+       |-- Wazuh Dashboard    SIEM - security dashboard (port 443)
 ```
 
-## Network Layout
+## Screenshots
 
-| Host            | IP Address    | OS                   | Role                              |
-|-----------------|---------------|----------------------|-----------------------------------|
-| proxmox         | 10.10.10.1    | Proxmox VE 8.x      | Hypervisor, gateway               |
-| win-dc01        | 10.10.10.10   | Windows Server 2025  | AD DC, DNS, DHCP, GPO            |
-| rocky-web01     | 10.10.10.20   | Rocky Linux 9        | Docker, web, monitoring, SIEM    |
+| Proxmox Dashboard | Grafana Monitoring |
+|---|---|
+| ![Proxmox](docs/screenshots/proxmox_dashboard.png) | ![Grafana](docs/screenshots/Grafana_dashboard.png) |
 
-## Tech Stack
+| Wazuh SIEM | ServiceNow Ticketing |
+|---|---|
+| ![Wazuh](docs/screenshots/Wazuh_dashboard.png) | ![ServiceNow](docs/screenshots/servicenow_dashboard.png) |
 
-| Category               | Tool                          |
-|------------------------|-------------------------------|
-| Hypervisor             | Proxmox VE 8.x               |
-| Windows Server         | Windows Server 2025           |
-| Linux Server           | Rocky Linux 9                 |
-| Containers             | Docker + Docker Compose       |
-| IaC                    | Terraform (Proxmox provider)  |
-| Config Management      | Ansible                       |
-| Monitoring             | Grafana + Prometheus          |
-| SIEM                   | Wazuh                         |
-| Scripting              | Bash, PowerShell, Python      |
-| Version Control        | Git + GitHub                  |
-| CI/CD                  | GitHub Actions                |
-| Ticketing              | ServiceNow (Dev Instance)     |
+## Tools Used
+
+| Tool | What I Used It For |
+|---|---|
+| Proxmox VE | Learned hypervisor management and web UI |
+| Windows Server 2025 | Set up Active Directory domain, DNS, DHCP, Group Policy |
+| Rocky Linux 10 | Linux server admin, package management, firewall config |
+| Docker | Deployed Nginx, Grafana, Prometheus, and Wazuh as containers |
+| Ansible | Automated Rocky Linux configuration (packages, firewall, services) |
+| Terraform | Wrote infrastructure-as-code configs for Proxmox VM provisioning |
+| Grafana + Prometheus | Built monitoring dashboards showing CPU, RAM, disk, network |
+| Wazuh | Deployed a SIEM for security monitoring and threat detection |
+| GitHub Actions | CI/CD pipelines that lint Ansible playbooks and validate Docker configs |
+| ServiceNow | Created incidents and learned IT ticketing workflows |
+| PowerShell | Automated Hyper-V VM creation and Windows configuration |
+| Bash | Proxmox post-install setup and Linux automation |
+| Python | ServiceNow REST API integration script |
 
 ## Project Structure
 
 ```
 .
-├── README.md
-├── docs/
-│   ├── setup-guides/          # Step-by-step setup documentation
-│   └── screenshots/           # Configuration screenshots
-├── terraform/
-│   └── proxmox/               # VM provisioning configs
-├── ansible/
-│   ├── playbooks/             # Configuration playbooks
-│   ├── roles/                 # Ansible roles
-│   └── inventory/             # Host inventory
-├── docker/
-│   ├── compose/               # Docker Compose files
-│   └── dockerfiles/           # Custom Dockerfiles
-├── monitoring/
-│   ├── grafana/               # Dashboards and provisioning
-│   └── prometheus/            # Scrape configs and rules
-├── wazuh/                     # SIEM configuration
+├── ansible/              # Ansible config and playbooks
+│   ├── playbooks/        #   Server configuration automation
+│   └── inventory/        #   Host inventory
+├── docker/compose/       # Docker Compose files for monitoring and SIEM
+├── monitoring/prometheus/ # Prometheus scrape configuration
+├── terraform/proxmox/    # Terraform configs for VM provisioning
 ├── scripts/
-│   ├── bash/                  # Linux automation
-│   ├── powershell/            # Windows automation
-│   └── python/                # Python utilities
-├── ci-cd/
-│   └── .github/workflows/     # GitHub Actions pipelines
-└── diagrams/                  # Network and architecture diagrams
+│   ├── bash/             # Linux automation scripts
+│   ├── powershell/       # Windows/Hyper-V automation scripts
+│   └── python/           # ServiceNow API integration
+├── docs/
+│   ├── setup-guides/     # Step-by-step setup documentation
+│   └── screenshots/      # Configuration screenshots
+├── diagrams/             # Network architecture diagrams
+└── .github/workflows/    # CI/CD pipeline definitions
 ```
 
-## Setup Phases
+## What I Learned
 
-| Phase | Description                                      | Status |
-|-------|--------------------------------------------------|--------|
-| 1     | Proxmox VE installation + VM creation            | [x]    |
-| 2     | Windows Server 2025 — AD, DNS, DHCP, GPO         | [x]    |
-| 3     | Rocky Linux 10 — base config, Docker             | [x]    |
-| 4     | Ansible — automated configuration of all hosts   | [x]    |
-| 5     | Terraform — infrastructure as code for Proxmox   | [x]    |
-| 6     | Monitoring — Grafana + Prometheus stack           | [x]    |
-| 7     | Security — Wazuh SIEM deployment                 | [x]    |
-| 8     | CI/CD — GitHub Actions pipelines                 | [x]    |
-| 9     | ServiceNow — ticketing integration               | [x]    |
-| 10    | Documentation, diagrams, and final polish         | [x]    |
+- How Active Directory, DNS, and DHCP work together in a Windows domain
+- Linux server administration on a RHEL-based distro (Rocky Linux)
+- Deploying and managing multi-container applications with Docker Compose
+- Writing Ansible playbooks to automate server configuration
+- Setting up monitoring with Grafana and Prometheus
+- Deploying a SIEM (Wazuh) for security event monitoring
+- CI/CD pipelines with GitHub Actions
+- IT service management workflows with ServiceNow
+- Networking fundamentals: subnetting, DNS resolution, DHCP scopes, firewall rules
+- The importance of documentation and version control in IT operations
 
-## Getting Started
+## Setup Guide
 
-See [docs/setup-guides/01-proxmox-setup.md](docs/setup-guides/01-proxmox-setup.md) to begin with Phase 1.
-
-## Skills Demonstrated
-
-- Hypervisor management and nested virtualization
-- Windows Server administration (AD DS, DNS, DHCP, Group Policy)
-- Linux system administration (RHEL-family)
-- Container orchestration with Docker
-- Infrastructure as Code (Terraform)
-- Configuration management (Ansible)
-- Monitoring and observability (Grafana/Prometheus)
-- Security information and event management (Wazuh)
-- Scripting and automation (Bash, PowerShell, Python)
-- CI/CD pipeline design (GitHub Actions)
-- IT service management (ServiceNow)
-- Technical documentation and diagramming
-- Networking fundamentals (subnetting, DNS, DHCP, firewalls)
+See [docs/setup-guides/01-proxmox-setup.md](docs/setup-guides/01-proxmox-setup.md) for detailed setup instructions.
