@@ -35,9 +35,15 @@ Everything runs on VMware Workstation on my Windows 11 PC.
 ### ServiceNow
 ![ServiceNow](docs/screenshots/servicenow-incident.png)
 
-## Tools
+## What I Used
 
-Proxmox, Windows Server 2025, Rocky Linux 10, Docker, Ansible, Terraform, Grafana, Prometheus, Wazuh, GitHub Actions, ServiceNow, PowerShell, Bash, Python
+- Proxmox VE, Windows Server 2025, Rocky Linux 10
+- Docker and Docker Compose
+- Ansible
+- Grafana, Prometheus
+- Wazuh
+- GitHub Actions (CI/CD)
+- ServiceNow
 
 ## Project Structure
 
@@ -45,8 +51,6 @@ Proxmox, Windows Server 2025, Rocky Linux 10, Docker, Ansible, Terraform, Grafan
 ansible/            playbooks and inventory
 docker/compose/     docker compose files
 monitoring/         prometheus config
-terraform/proxmox/  VM provisioning configs
-scripts/            bash, powershell, python
 docs/screenshots/   screenshots
 diagrams/           network diagram
 .github/workflows/  CI/CD
