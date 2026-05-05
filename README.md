@@ -2,82 +2,64 @@
 
 ## About
 
-I saw a job posting for a Lab/System Admin Intern role at ASRC Federal. The description listed tools like Active Directory, Linux, Docker, Ansible, and monitoring. I wanted to learn how all of these actually work together, so I built this lab from scratch on my own machine.
+I looked at several job postings for System Admin and Lab Admin intern roles. They all wanted experience with Active Directory, Linux, Docker, Ansible, monitoring, etc. So I just built it all myself to see how it works.
 
-## What's in the Lab
+## What's Running
 
-All running on VMware Workstation on my Windows 11 PC:
+Everything runs on VMware Workstation on my Windows 11 PC.
 
-- **Proxmox VE 9.1** - hypervisor management
-- **Windows Server 2025** - Active Directory, DNS, DHCP, Group Policy
-- **Rocky Linux 10** - Docker host running 7 containers:
-  - Nginx (web server)
-  - Grafana (monitoring dashboards)
-  - Prometheus (metrics collection)
-  - Node Exporter (system metrics)
-  - Wazuh Manager, Indexer, Dashboard (SIEM)
+- Proxmox VE 9.1
+- Windows Server 2025 with Active Directory, DNS, DHCP, Group Policy
+- Rocky Linux 10 running Docker with:
+  - Nginx
+  - Grafana + Prometheus + Node Exporter
+  - Wazuh (Manager, Indexer, Dashboard)
 
 ## Screenshots
 
-### Proxmox Dashboard
+### Proxmox
 ![Proxmox](docs/screenshots/proxmox-dashboard.png)
 
-### Grafana Monitoring
+### Grafana
 ![Grafana](docs/screenshots/grafana-dashboard.png)
 
-### Wazuh SIEM
+### Wazuh
 ![Wazuh](docs/screenshots/wazuh-dashboard.png)
 
-### Active Directory, DNS, DHCP, GPO
+### AD / DNS / DHCP / GPO
 ![AD](docs/screenshots/ad-dhcp-gpo.png)
 
-### Ansible Automation
+### Ansible
 ![Ansible](docs/screenshots/ansible-playbook.png)
 
-### ServiceNow Incident
+### ServiceNow
 ![ServiceNow](docs/screenshots/servicenow-incident.png)
 
 ## Tools
 
-| Tool | What I did with it |
-|---|---|
-| Proxmox VE | Installed and managed the hypervisor web UI |
-| Windows Server 2025 | Set up AD domain, DNS, DHCP, Group Policy |
-| Rocky Linux 10 | Server admin, packages, firewall |
-| Docker | Ran Nginx, Grafana, Prometheus, Wazuh as containers |
-| Ansible | Automated server setup (packages, firewall, services) |
-| Terraform | Wrote IaC configs for Proxmox VM provisioning |
-| Grafana + Prometheus | Monitoring dashboards for CPU, RAM, disk, network |
-| Wazuh | Security monitoring and threat detection |
-| GitHub Actions | CI/CD that lints Ansible and validates Docker configs |
-| ServiceNow | Created incidents, learned ticketing workflows |
-| PowerShell | Automated VM creation |
-| Bash | Linux automation scripts |
-| Python | ServiceNow REST API integration |
+Proxmox, Windows Server 2025, Rocky Linux 10, Docker, Ansible, Terraform, Grafana, Prometheus, Wazuh, GitHub Actions, ServiceNow, PowerShell, Bash, Python
 
 ## Project Structure
 
 ```
-ansible/           Ansible playbooks and inventory
-docker/compose/    Docker Compose files
-monitoring/        Prometheus config
-terraform/proxmox/ Terraform VM configs
-scripts/bash/      Linux scripts
-scripts/powershell/ Windows scripts
-scripts/python/    Python scripts
-docs/screenshots/  Screenshots
-diagrams/          Network diagrams
-.github/workflows/ CI/CD pipelines
+ansible/            playbooks and inventory
+docker/compose/     docker compose files
+monitoring/         prometheus config
+terraform/proxmox/  VM provisioning configs
+scripts/            bash, powershell, python
+docs/screenshots/   screenshots
+diagrams/           network diagram
+.github/workflows/  CI/CD
 ```
 
 ## What I Learned
 
-- How AD, DNS, and DHCP work together in a domain
-- Linux server admin on Rocky Linux (RHEL-based)
-- Deploying containers with Docker Compose
-- Writing Ansible playbooks for automation
-- Monitoring with Grafana and Prometheus
-- Security monitoring with Wazuh SIEM
-- CI/CD with GitHub Actions
-- IT ticketing with ServiceNow
-- Networking: subnetting, DNS, DHCP, firewall rules
+- AD, DNS, and DHCP all depend on each other in a domain
+- Rocky Linux is basically RHEL, same commands and packages
+- Docker Compose makes it easy to run multiple services together
+- Ansible saves time when you have to configure the same thing on multiple servers
+- Grafana is useless without a data source like Prometheus
+- Wazuh setup is not simple but the dashboard is worth it
+- CI/CD is just automated checks that run when you push code
+- ServiceNow is what companies use for ticketing and change management
+- Troubleshooting is where you actually learn things
