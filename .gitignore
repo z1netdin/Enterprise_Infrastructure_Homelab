@@ -1,0 +1,47 @@
+# Secrets and credentials
+*.pem
+*.key
+*.crt
+*.pfx
+.env
+secrets/
+credentials/
+**/vault-password*
+
+# Terraform
+terraform/.terraform/
+terraform/**/.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+!*.tfvars.example
+
+# Ansible
+ansible/*.retry
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Proxmox ISOs and disk images
+*.iso
+*.img
+*.qcow2
+*.vmdk
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Logs
+*.log
+logs/

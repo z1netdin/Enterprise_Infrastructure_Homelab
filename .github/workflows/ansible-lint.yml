@@ -1,0 +1,50 @@
+name: Ansible Lint & Validate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ansible/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'ansible/**'
+
+jobs:
+  lint:
+    name: Lint Ansible Playbooks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ansible-lint
+        run: pip install ansible-lint ansible-core
+
+      - name: Run ansible-lint
+        run: ansible-lint ansible/playbooks/*.yml
+
+  validate-yaml:
+    name: Validate YAML Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Lint YAML files
+        run: yamllint -d relaxed ansible/ docker/

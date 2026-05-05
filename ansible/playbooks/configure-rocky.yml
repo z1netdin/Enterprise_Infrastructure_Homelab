@@ -1,0 +1,71 @@
+---
+- name: Configure Rocky Linux Web Server
+  hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+    - name: Set hostname
+      hostname:
+        name: rocky-web01
+
+    - name: Install essential packages
+      dnf:
+        name:
+          - vim
+          - curl
+          - wget
+          - epel-release
+          - net-tools
+          - firewalld
+          - python3-pip
+        state: present
+
+    - name: Enable and start firewalld
+      systemd:
+        name: firewalld
+        enabled: true
+        state: started
+
+    - name: Open HTTP port
+      firewalld:
+        port: 80/tcp
+        permanent: true
+        state: enabled
+        immediate: true
+
+    - name: Open Grafana port
+      firewalld:
+        port: 3000/tcp
+        permanent: true
+        state: enabled
+        immediate: true
+
+    - name: Open Prometheus port
+      firewalld:
+        port: 9091/tcp
+        permanent: true
+        state: enabled
+        immediate: true
+
+    - name: Open Wazuh Dashboard port
+      firewalld:
+        port: 443/tcp
+        permanent: true
+        state: enabled
+        immediate: true
+
+    - name: Ensure Docker is running
+      systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Create lab info file
+      copy:
+        dest: /etc/lab-info.txt
+        content: |
+          Enterprise Infrastructure Home Lab
+          Host: rocky-web01
+          Role: Docker, Web, Monitoring, SIEM
+          Services: Nginx, Grafana, Prometheus, Wazuh
